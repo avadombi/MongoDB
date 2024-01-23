@@ -10,3 +10,10 @@ db.countries.insertOne(
     }
 );
 
+// insert multiple data in coutries collection
+db.countries.insertMany([
+    {country_name: "Senegal", continent: "Africa", register_date: new Date()},
+    {country_name: "Mali", continent: "Africa", register_date: new Date()},
+    {country_name: "USA", continent: "North America", register_date: new Date()},
+    {country_name: "Mexico", continent: "South America", register_date: new Date()}
+]);
