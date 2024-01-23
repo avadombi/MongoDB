@@ -1,0 +1,11 @@
+// first, select the db
+use("country_db");
+
+// then, create a collection named: countries
+db.createCollection("countries");
+
+// create anorher collection named: cities
+db.createCollection("cities");
+
+// create a collection named: currencies
+db.createCollection("currencies");
