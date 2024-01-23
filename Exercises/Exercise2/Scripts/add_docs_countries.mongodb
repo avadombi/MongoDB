@@ -1,0 +1,12 @@
+// use our country_db database
+use("country_db");
+
+// insert data in countries collection
+db.countries.insertOne(
+    {
+        country_name: 'Canada',
+        continent: "North America",
+        register_date: new Date()
+    }
+);
+
