@@ -1,0 +1,21 @@
+use("country_db");
+
+db.cities.insertMany([
+    {city_name: "Bamako",
+    is_capital: true,
+    country_name: "Mali",
+    info: {
+        population: 3_500_000,
+        avg_temp: 28,
+        neighborhoods: ["Niaréla", "Bazola"]
+    }},
+
+    {city_name: "Montréal",
+    is_capital: false,
+    country_name: "Canada",
+    info: {
+        population: null,
+        avg_temp: 15,
+        neighborhoods: ["Vieux-Montréal", "Quartier Latin"]
+    }}
+]);
