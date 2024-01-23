@@ -4,12 +4,14 @@ use("country_db");
  * Let's create some functions
 */
 
-var printAllCountries = function() {
+// 1. print all countries
+var printAllCountries = function(limit=0, sortObj={}) {
+    // {} means take all 
     // get all documents
-    var allCountries = db.countries.find({});  // get all documents
+    var allCountries = db.countries.find({}).limit(limit).sort(sortObj);  // get all documents
 
     // print all docs in the form {cursorHasMore: false, documents: [...]}
-    print(allCountries);  // display without formating
+    // print(allCountries);  // display without formating
 
     // loop to print each document
     while (allCountries.hasNext()) {
@@ -19,4 +21,11 @@ var printAllCountries = function() {
 };
 
 
-printAllCountries();
+// 2. get countries belonging to a specific country
+function getCountriesForAContinent(continent = "Africa") {
+    return db.countries.find({continent: {$eq: continent}});
+};
+
+
+printAllCountries(limit=1, sortObj={country_name: -1});
+printjson(getCountriesForAContinent("North America"));
