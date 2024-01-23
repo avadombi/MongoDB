@@ -1,0 +1,5 @@
+/**
+ * Create our first database named country_db
+*/
+
+use("country_db");
