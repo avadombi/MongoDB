@@ -1,0 +1,95 @@
+[{
+  "_id": {
+    "$oid": "65afcecffb5a48d1ac7182c5"
+  },
+  "name": "Naruto",
+  "age": 21,
+  "gpa": 4.1,
+  "registerDate": {
+    "$date": "2024-01-01T05:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65afcf63fb5a48d1ac7182c6"
+  },
+  "name": "Patrick",
+  "age": 38,
+  "gpa": 1.5,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afcf63fb5a48d1ac7182c7"
+  },
+  "name": "Sandy",
+  "age": 27,
+  "gpa": 4,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afcf63fb5a48d1ac7182c8"
+  },
+  "name": "Gary",
+  "age": 18,
+  "gpa": 2.5,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afd01a6446ab35e1f215ad"
+  },
+  "name": "DBZ",
+  "age": 30,
+  "gpa": 4.2,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afd09e6446ab35e1f215af"
+  },
+  "name": "Aya",
+  "age": 18,
+  "gpa": 4,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afd09e6446ab35e1f215b0"
+  },
+  "name": "Manu",
+  "age": 25,
+  "gpa": 4.2,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afd09e6446ab35e1f215b1"
+  },
+  "name": "Willy",
+  "age": 33,
+  "gpa": 4.2,
+  "fullTime": true
+},
+{
+  "_id": {
+    "$oid": "65afd4146446ab35e1f215b4"
+  },
+  "name": "Larry",
+  "age": 32,
+  "gpa": 2.8,
+  "registerDate": null,
+  "graduationDate": null,
+  "courses": [
+    "Biology",
+    "Maths",
+    "Chemistry"
+  ],
+  "address": {
+    "street": "123 Fake St.",
+    "city": "Bikini Bottom",
+    "zip": 12345
+  },
+  "fullTime": true
+}]
