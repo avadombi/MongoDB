@@ -1,0 +1,22 @@
+use("country_db");
+
+/**
+ * Let's create some functions
+*/
+
+var printAllCountries = function() {
+    // get all documents
+    var allCountries = db.countries.find({});  // get all documents
+
+    // print all docs in the form {cursorHasMore: false, documents: [...]}
+    print(allCountries);  // display without formating
+
+    // loop to print each document
+    while (allCountries.hasNext()) {
+        var country = allCountries.next();
+        printjson(country)
+    }
+};
+
+
+printAllCountries();
