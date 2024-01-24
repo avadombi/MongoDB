@@ -1,0 +1,9 @@
+use("country_db");
+
+db.cities.drop();
+db.countries.drop();
+db.currencies.drop();
+db.dropDatabase();
+
+use("countrY_py_db");
+db.dropDatabase();
