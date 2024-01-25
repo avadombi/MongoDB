@@ -27,7 +27,11 @@ filters = {
 ## 3. Update: Modify documents
 
 ```
+// update the first document that matches the specified filters
 db.my_collection.updateOne(filters, operators);
+
+// update all documents that match the specified filters
+db.my_collection.updateMany(filters, operators);
 
 filters = {...}  // apply update on data matching filters
 operators = {
@@ -36,3 +40,24 @@ operators = {
   ...
 }  // update to apply
 ```
+
+### Update operators
+
+#### Behavior
+
+![behavior](image.png)
+
+#### Operators for Fields
+
+![fields](image-1.png)
+
+#### Operators for Arrays
+
+* Operators
+![arrays](image-2.png)
+
+* Modifiers
+![modify](image-3.png)
+
+#### Bitwise
+![bitwise](image-4.png)
