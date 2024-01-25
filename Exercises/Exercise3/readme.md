@@ -72,3 +72,8 @@ operators = {
 ## If/else statements in MangoDB
 
 ![if, else statement](./images/image-5.png)
+
+
+# Equivalence between SQL and MongoDB
+
+https://www.mongodb.com/docs/manual/reference/sql-comparison/
