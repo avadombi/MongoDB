@@ -122,4 +122,38 @@ function updateRenameCurrencies(currency_id) {
     );
 };
 
-updateRenameCurrencies(currency_id=1);
+
+// 5. $setOnInsert: if upsert is true, if the insert (document) is successful, the
+// setOnInsert is triggered and the new value is inserted. Otherwise, nothing
+// so, works only on insert. Reason whi currency_id = 255 to insert a doc
+// since it does not exist yet.
+function updateSetOnInsertCurrencies() {
+    db.currencies.updateOne(
+        {currency_id: 255},
+        {
+            $set: {
+                "currencyValue": 10.0
+            },
+            $setOnInsert: {
+                defaultQty: 50
+            }
+        },
+        { upsert: true }
+    );
+};
+
+
+// 6. $unset: delete a particular field
+function updateUnsetCurrencies() {
+    db.currencies.updateOne(
+        {currency_id: 255},
+        {
+            $unset: {
+                "currencyValue": "",
+                "defaultQty": ""
+            }
+        }
+    );
+};
+
+
