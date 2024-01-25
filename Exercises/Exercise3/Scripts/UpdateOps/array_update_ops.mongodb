@@ -227,5 +227,31 @@ function executeBulkWriter() {
     }
 };
 
-executeBulkWriter();
 
+
+// 6. $push: append a value to an array
+// create a function that insert a doc with votes array and append [-15, -20]
+function insertDocPushSubArray() {
+    // we can use a bulkWriter but I will do it in seperate ops
+    db.currencies.insertOne({
+        currencyId: 302,
+        votes: [ 3, 5, 6, 7, 7, 8 ]
+    });
+
+    db.currencies.updateOne(
+        // filter
+        { currencyId: 302},
+        // pop ops
+        {
+            $push: {
+                votes: {
+                    $each: [-15, -20],
+                    $slice: -5,  // the last five elems
+                    $sort: -1  // desc order
+                }
+            }
+        }
+    );
+};
+
+insertDocPushSubArray();
