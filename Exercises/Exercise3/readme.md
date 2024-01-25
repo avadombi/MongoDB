@@ -51,24 +51,24 @@ operators = {
 
 #### Behavior
 
-![behavior](image.png)
+![behavior](./images/image.png)
 
 #### Operators for Fields
 
-![fields](image-1.png)
+![fields](./images/image-1.png)
 
 #### Operators for Arrays
 
 * Operators
-![arrays](image-2.png)
+![arrays](./images/image-2.png)
 
 * Modifiers
-![modify](image-3.png)
+![modify](./images/image-3.png)
 
 #### Bitwise
-![bitwise](image-4.png)
+![bitwise](./images/image-4.png)
 
 
 ## If/else statements in MangoDB
 
-![if, else statement](image-5.png)
+![if, else statement](./images/image-5.png)
