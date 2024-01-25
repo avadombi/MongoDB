@@ -121,21 +121,26 @@ function elapsedTimeCountries() {
         {
             $set: {
                 elapsedTime: {
-                    $ifNull: [
+                    $round: [
                         {
-                            $divide: [
+                            $ifNull: [
                                 {
-                                    $subtract: [
-                                        currentDate,
+                                    $divide: [
                                         {
-                                            $arrayElemAt: ["$timeSeries", -1]
-                                        }
+                                            $subtract: [
+                                                currentDate,
+                                                {
+                                                    $arrayElemAt: ["$timeSeries", -1]
+                                                }
+                                            ]
+                                        },
+                                        3_600_000  // hour to milliseconds
                                     ]
                                 },
-                                3_600_000  // hour to milliseconds
+                                null  // if null or division by 0, affect 0
                             ]
                         },
-                        null  // if null or division by 0, affect 0
+                        2  // round to two decimals
                     ]
                 }
             }
