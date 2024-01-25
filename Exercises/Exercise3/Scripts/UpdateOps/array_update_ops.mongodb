@@ -152,4 +152,35 @@ function addToArrayIfNotExist() {
     );
 };
 
-addToArrayIfNotExist();
+
+// 4. $pop: remove the first (-1) or last (1) element of an array
+function removeLastElemOfArray() {
+    db.currencies.updateOne(
+        // filter
+        { currencyId: 300},
+        // pop ops
+        {
+            $pop: {
+                "embeddedDocuments.$[].questions": 1  // remove the last elem of each sub-docs in embeddedDocuments
+            }
+        }
+    );
+};
+
+
+// 5. $pull: the array must exist, remove all instances that matches the specified value or condition
+// create a function that remove 0 in questions array for all sub-docs
+function removeElemMatchesValueOrCondition() {
+    db.currencies.updateOne(
+        // filter
+        { currencyId: 300},
+        // pop ops
+        {
+            $pull: {
+                "embeddedDocuments.$[].questions": { $eq: 0}
+            }
+        }
+    );
+};
+
+removeElemMatchesValueOrCondition();
