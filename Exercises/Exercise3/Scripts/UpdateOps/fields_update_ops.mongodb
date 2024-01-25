@@ -1,0 +1,125 @@
+use('country_db');
+
+
+// 1. $currentDate: assign the current date to the specified field
+// create a function that add or update a new field by the current date
+// and add other fields to give the context of this update
+function currentDateCurrencies(currency_id) {
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $currentDate: {
+                lastModified: true,  // if not exist, create and add current date
+                "modification.date": {$type: "timestamp"}  // if not exist, create it and add curr. date as timestamp
+            },
+            $set: {
+                "modification.reason": "user request",  // if not exists, create it and add the string "user request"
+                status: "inserted"  // same here
+            }
+        }
+    );
+};
+
+// 2. $inc: increase the value of a field by the specified increment
+// let's create a function that create and update a field named updateCount
+// each time a document is updated/queried
+
+function updateIncCurrencies(currency_id) {
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $inc: {
+                updateCount: 1  // increment. It works even if we don't check for the existence of the field
+            }
+        }
+    );
+};
+
+
+// 3. $min: update the field to the specified min value if the current one is greater than the min
+function updateMinCurrencies(currency_id) {
+    // first add a field named score and containing higher and lower score
+    
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $set: {
+                "score.highScore": 90,
+                "score.lowScore": 70
+            }
+        }
+    );
+
+    // then impose the min constraint
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $min: {
+                "score.lowScore": 60
+            }
+        }
+    );
+
+    // note: it's not possible to embed both ops in one update call because it will cause variable conflict
+}
+
+// 3. $max: update the field to the specified max value if the current one is greater lower than the min
+function updateMaxCurrencies(currency_id) {
+    // first add a field named score and containing higher and lower score
+    
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $set: {
+                "score.highScore": 90,
+                "score.lowScore": 70
+            }
+        }
+    );
+
+    // then impose the min constraint
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $max: {
+                "score.highScore": 100
+            }
+        }
+    );
+}
+
+
+// 4. $mul: multiply a field by the specified value
+function updateMulCurrencies(currency_id) {
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $set: {
+                value: 2.5
+            }
+        }
+    );
+
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $mul: {
+                value: 10
+            }
+        }
+    );
+};
+
+// 5. $rename: update the name of a field
+function updateRenameCurrencies(currency_id) {
+    db.currencies.updateOne(
+        {currency_id: currency_id},
+        {
+            $rename: {
+                "value": "mulValue"
+            }
+        }
+    );
+};
+
+updateRenameCurrencies(currency_id=1);
