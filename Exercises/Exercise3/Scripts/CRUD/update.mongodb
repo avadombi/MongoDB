@@ -27,7 +27,7 @@ function aggregateAndCapitalizeCountryName() {
 
 // printjson(aggregateAndCapitalizeCountryName());
 
-// create a function to capitalize countries' name
+// create a function to capitalize countries' name first letter
 function capitalizeCountriesName() {
     db.countries.updateMany({}, [
         {$set: {country_name: {$concat: [
@@ -37,10 +37,78 @@ function capitalizeCountriesName() {
     ]);
 };
 
-capitalizeCountriesName();
-printCountriesName();
 
+// add a new field to countries documents that stores the number of letter of country_name field
+function addLengthCountryName() {
+    db.countries.updateMany({}, [
+        // the field will be created as it doesn't exit yet before being populated by the length value
+        {$set: {name_len: {$strLenCP: "$country_name"}}}
+    ]);
+};
 
+function printCountriesMoreFields() {
+    const projection = {
+        country_name: true,
+        name_len: true
+    };
+    const countries = db.countries.find({}, projection).limit(3);
+    printjson(countries);
+};
 
+// create a function that store the current date each time the data is queried
+// and count the number of time data was queried since the beginning. Limit the number
+// of date stored to the last 10.
+/**
 
+{
+            $push: {
+                timeSeries: {
+                    $each: [currentDate],
+                    $slice: -10
+                }
+            }
+        },
+
+        $cond: [
+                        { $exists: "$queryCount"},  // condition
+                        { $add: ["$queryCount", 1]},  // value if true
+                        1  // value if false
+                    ]
+
+*/
+function dateTimeSeriesCountries() {
+    const currentDate = new Date();
+    // note: [] means it's an aggregation pipeline
+    db.countries.updateMany({}, [
+        {
+            $set: {
+                queryCount: {
+                    $ifNull: [{$add: ["$queryCount", 1]}, 1]
+                }
+            }
+        }
+    ]);
+
+    // $push does not work for the moment, so let's do it by another way
+    db.countries.find({}).forEach(function(document) {
+        // get current time series values
+        let timeSeries = document.timeSeries || [];
+
+        // push the current date
+        timeSeries.push(currentDate);
+
+        // get the last 10
+        timeSeries = timeSeries.slice(-10);
+
+        // now, replace previous values of timeSeries by the new one
+        db.countries.updateOne({_id: document._id}, {
+            $set: {timeSeries: timeSeries}
+        });
+    });
+};
+
+// capitalizeCountriesName();
+// addLengthCountryName();
+// printCountriesMoreFields();
+dateTimeSeriesCountries();
 

@@ -67,3 +67,8 @@ operators = {
 
 #### Bitwise
 ![bitwise](image-4.png)
+
+
+## If/else statements in MangoDB
+
+![if, else statement](image-5.png)
