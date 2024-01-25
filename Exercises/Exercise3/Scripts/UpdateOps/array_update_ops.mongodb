@@ -183,4 +183,49 @@ function removeElemMatchesValueOrCondition() {
     );
 };
 
-removeElemMatchesValueOrCondition();
+
+// use of bulkWrite operation to execute multiple ops
+// here we want to remove votes values < 3 and values >= 6
+function executeBulkWriter() {
+    try {
+        db.currencies.bulkWrite([
+            // first operation
+            {
+                insertOne: {
+                    "document": {currencyId: 301, currencyName: "fake again", votes: [ 3, 5, 6, 7, 7, 8 ]}
+                }
+            },
+            // second ops
+            {
+                updateOne: {
+                    "filter": {currencyId: 301},
+                    "update": {
+                        $pull: {
+                            votes: {
+                                $lt: 3
+                            }
+                        }
+                    }
+                }
+            },
+            // third ops
+            {
+                updateOne: {
+                    "filter": {currencyId: 301},
+                    "update": {
+                        $pull: {
+                            votes: {
+                                $gte: 6
+                            }
+                        }
+                    }
+                }
+            }
+        ]);
+    } catch (e) {
+        print(e);  // e: error caught
+    }
+};
+
+executeBulkWriter();
+
