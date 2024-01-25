@@ -1,0 +1,46 @@
+use('country_db');
+
+// create a funcction to read documents
+function printCountriesName() {
+    const countries = db.countries.find({}, {country_name: true}).limit(3);
+    printjson(countries);
+};
+
+
+// aggregate countries and capitalize the first letter of their name
+function aggregateAndCapitalizeCountryName() {
+    const outs = db.countries.aggregate([
+        {
+            $project: {
+                "_id": false,
+                "country_name": true,  // it is also possible to replace true by 1
+                "capitalized_name": {$concat: [
+                    {$toUpper: {$substrCP: ["$country_name", 0, 1]}},
+                    {$toLower: {$substrCP: ["$country_name", 1, {$strLenCP: "$country_name"}]}}
+                ]}
+            }
+        }
+    ]);
+
+    return outs;
+}
+
+// printjson(aggregateAndCapitalizeCountryName());
+
+// create a function to capitalize countries' name
+function capitalizeCountriesName() {
+    db.countries.updateMany({}, [
+        {$set: {country_name: {$concat: [
+            {$toUpper: {$substrCP: ["$country_name", 0, 1]}},
+            {$toLower: {$substrCP: ["$country_name", 1, {$strLenCP: "$country_name"}]}}
+        ]}}}
+    ]);
+};
+
+capitalizeCountriesName();
+printCountriesName();
+
+
+
+
+

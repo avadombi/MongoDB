@@ -14,24 +14,30 @@ document = {field: value, ...}
 
 ```
 // find all documents
-db.my_collection.find({});
+db.my_collection.find({}, projection);
 
 // find documents that matches the specified conditions
-db.my_collection.find(filters);
+db.my_collection.find(filters, projection);
 filters = {
     field_1: {operator_1: value, ...},
     ...
 }
+
+// allow to specify fields you want to display. It is facultative
+projection = {field_1: true, field_2: false, ...}
+
+// projection is equivalent to:
+SELECT field_1, ... FROM my_table;
 ```
 
 ## 3. Update: Modify documents
 
 ```
 // update the first document that matches the specified filters
-db.my_collection.updateOne(filters, operators);
+db.my_collection.updateOne(filters, [operators]);
 
 // update all documents that match the specified filters
-db.my_collection.updateMany(filters, operators);
+db.my_collection.updateMany(filters, [operators]);
 
 filters = {...}  // apply update on data matching filters
 operators = {
