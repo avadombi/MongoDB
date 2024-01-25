@@ -1,2 +1,33 @@
 use('country_db');
 
+// get all countries
+const allCoutries = db.countries.find({});
+
+// get Canada, France and Mali if exists
+const someCountries = db.countries.find(
+    {country_name: {$in: ['canada', 'france', 'mali']}}
+);
+
+// get Canada, France and Mali if exists but don't be sensitive to case
+const someCountriesUnsensitiveCase = db.countries.find(
+    {country_name: {$regex: "^(canaDa|FrAnce|MaLi)$", $options: "i"}}
+);
+
+// same as previous but with the idea with have much more coutries
+const selectedCountries = ['canaDa', 'frAnce', 'MalI'];
+const regexSelectedCountries = selectedCountries.map((country) => {
+    return new RegExp('^' + country + '$', 'i');
+});
+
+const someCountriesUnCaseIdeal = db.countries.find({
+    country_name: {$in: regexSelectedCountries}
+});
+
+// get cities where name start with ab and population btw 1e5 and 2e5 
+const someCities = db.cities.find({
+    city_name: {$regex: '^ab', $options: 'i'},
+    $and: [{population: {$gte: 1e2}}, {population: {$lte: 1e4}}]
+}).limit(3).sort({population: -1});
+
+
+print(someCities);
