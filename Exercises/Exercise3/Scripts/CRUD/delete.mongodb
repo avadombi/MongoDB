@@ -1,0 +1,6 @@
+use("country_db");
+
+// delete a field
+db.countries.updateMany({}, {
+    $unset: {elapsedTime: ""}
+});

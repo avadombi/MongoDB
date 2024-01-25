@@ -83,7 +83,7 @@ function dateTimeSeriesCountries() {
         {
             $set: {
                 queryCount: {
-                    $ifNull: [{$add: ["$queryCount", 1]}, 1]
+                    $ifNull: [{$add: ["$queryCount", 1]}, 1]  // [value if not nul, value if null] 
                 }
             }
         }
@@ -107,8 +107,48 @@ function dateTimeSeriesCountries() {
     });
 };
 
+/**
+ * create a function that add a new field (array) if not exists and if exists
+ * update its unique value (only one value in the array) by the elapsed time
+ * btw the current date and last value in timeSeries, in hours
+ */
+
+function elapsedTimeCountries() {
+    const currentDate = new Date();
+
+    // if you omit [] you will get unexpected result
+    db.countries.updateMany({}, [
+        {
+            $set: {
+                elapsedTime: {
+                    $ifNull: [
+                        {
+                            $divide: [
+                                {
+                                    $subtract: [
+                                        currentDate,
+                                        {
+                                            $arrayElemAt: ["$timeSeries", -1]
+                                        }
+                                    ]
+                                },
+                                3_600_000  // hour to milliseconds
+                            ]
+                        },
+                        null  // if null or division by 0, affect 0
+                    ]
+                }
+            }
+        }
+    ],
+    {
+        upsert: true  // if no doc matches the filters, a new one will be created
+    });
+};
+
 // capitalizeCountriesName();
 // addLengthCountryName();
 // printCountriesMoreFields();
-dateTimeSeriesCountries();
+// dateTimeSeriesCountries();
 
+elapsedTimeCountries();
