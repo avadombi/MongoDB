@@ -132,7 +132,7 @@ function updateAllElems2LevelEmbeddedDocuments() {
 
 
 // 3. $addToSet: add an elem to an array unless the value is already present
-// optionally, use $each to add each element of the specified array.
+// optionally, use $each modifier to add each element of the specified array.
 function addToArrayIfNotExist() {
     db.currencies.updateOne(
         // filters
