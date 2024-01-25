@@ -246,6 +246,7 @@ function insertDocPushSubArray() {
             $push: {
                 votes: {
                     $each: [-15, -20],
+                    $position: -1,  // add at the end
                     $slice: -5,  // the last five elems
                     $sort: -1  // desc order
                 }
