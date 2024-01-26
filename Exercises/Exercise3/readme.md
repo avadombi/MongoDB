@@ -126,7 +126,7 @@ db.orders.aggregate( [
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/#std-label-aggregation-expressions
 
-### 1.2. Aggregation expressions
+### 1.2. Aggregation stages
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#std-label-aggregation-pipeline-operator-reference
 
