@@ -293,3 +293,6 @@ https://www.mongodb.com/docs/manual/core/schema-validation/specify-json-schema/j
 > Using query operators in defining the schema validation
 https://www.mongodb.com/docs/manual/core/schema-validation/specify-query-expression-rules/
 
+> $jsonSchema specifications
+https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema/#json-schema
+

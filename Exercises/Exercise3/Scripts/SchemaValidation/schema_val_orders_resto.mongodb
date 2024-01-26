@@ -1,0 +1,148 @@
+use('resto');
+
+// 1. create a schema validation when creating a collection
+// 1.1. creation
+function createSchemaValidationAtCollCreation() {
+    db.createCollection(
+        "users", // collection name
+        {
+            validator: {
+                $jsonSchema: {
+                    bsonType: "object", // our json schema validation type
+                    title: "User object validation",  // title of our schema
+                    required: ["name", "age", "email", "tel"],  // fields requiered
+                    properties: {
+                        // here, for each or some of the fields (required or not), specify 
+                        // your rules and constraints
+                        name: {
+                            bsonType: "string",
+                            description: "`name` should be a string and is required"
+                        },
+                        age: {
+                            bsonType: "int",
+                            minimum: 0,
+                            maximum: 200,
+                            description: "`age` should be an integer btw [0 - 200] and is required"
+                        },
+                        email: {
+                            bsonType: "string",
+                            pattern: "^\\S+@\\S+\\.\\S+$",
+                            description: "'email' should be a string with @ and is required"
+                        },
+                        address: {
+                            bsonType: "string",
+                            description: "'address' should be string if provided"
+                        }
+                    }
+                }
+            },
+            validationLevel: "strict",  // off, strict, moderate
+            validationAction: "error"  // error, warn, log
+        }
+    );
+};
+
+// 1.2. add invalid data
+function addInvalidData(choice) {
+    switch (choice) {
+        case 1:  // some required fields have been left blank
+            db.users.insertOne({
+                name: "naruto",
+                age: 15
+            });
+            break;
+        case 2:  // age is not between [0 - 200]
+            db.users.insertOne({
+                name: "naruto",
+                age: -15,
+                email: "naruto@bestkicker.com",
+                tel: ""
+            });
+            break;
+        case 3:  // email: there is not @
+            db.users.insertOne({
+                name: "naruto",
+                age: 15,
+                email: "narutobestkicker.com",
+                tel: ""
+            });
+            break;
+        default:  // address: not a string
+            db.users.insertOne({
+                name: "naruto",
+                age: 15,
+                email: "naruto@bestkicker.com",
+                tel: "",
+                address: 10
+            });
+            break;
+            break;
+    }
+};
+
+
+// 1.3. add valid data
+function addValidData() {
+    db.users.insertOne({
+        name: "naruto",
+        age: 30,
+        email: "naruto@bestkicker.com",
+        tel: "",
+        address: "123 fake st., Ontario, 1234"
+    });
+
+    db.users.insertOne({
+        name: "dbz",
+        age: 29,
+        email: "dbz@betterthannaruto.com",
+        tel: ""
+    });
+};
+
+
+// createSchemaValidationAtCollCreation();
+// addInvalidData(choice=1);
+// addValidData();
+
+// 2. create a schema validation for an existing collection
+// 2.1. creation
+function createSchemaValExistingColl() {
+    db.runCommand({
+        collMod: "users",  // collection to create schema val. on
+        // let's create the same validation as previously
+        validator: {
+            $jsonSchema: {
+                bsonType: "object", // our json schema validation type
+                title: "User object validation",  // title of our schema
+                required: ["name", "age", "email", "tel"],  // fields requiered
+                properties: {
+                    // here, for each or some of the fields (required or not), specify 
+                    // your rules and constraints
+                    name: {
+                        bsonType: "string",
+                        description: "`name` should be a string and is required"
+                    },
+                    age: {
+                        bsonType: "int",
+                        minimum: 0,
+                        maximum: 200,
+                        description: "`age` should be an integer btw [0 - 200] and is required"
+                    },
+                    email: {
+                        bsonType: "string",
+                        pattern: "^\\S+@\\S+\\.\\S+$",
+                        description: "'email' should be a string with @ and is required"
+                    },
+                    address: {
+                        bsonType: "string",
+                        description: "'address' should be string if provided"
+                    }
+                }
+            }
+        },
+        validationLevel: "strict",
+        validationAction: "error"
+    });
+};
+
+createSchemaValExistingColl();
