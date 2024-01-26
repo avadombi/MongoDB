@@ -122,11 +122,21 @@ db.orders.aggregate( [
 ] )
 ```
 
-### 1.1. Aggregation operators
-
-https://www.mongodb.com/docs/manual/reference/operator/aggregation/#std-label-aggregation-expressions
-
-### 1.2. Aggregation stages
+### 1.1. Aggregation stages
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#std-label-aggregation-pipeline-operator-reference
+
+### 1.2. Aggregation expressions
+
+Some aggregation pipeline stages accept an aggregation expression, which:
+
+* Specifies the transformation to apply to the current stage's input documents.
+
+* Transform the documents in memory.
+
+* Can specify aggregation expression operators to calculate values.
+
+* Can contain additional nested aggregation expressions.
+
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/#std-label-aggregation-expressions
 
