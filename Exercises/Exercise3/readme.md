@@ -51,7 +51,7 @@ operators = {
 
 #### Behavior
 
-![behavior](./images/image.png)
+![behavior](./images/image-0.png)
 
 #### Operators for Fields
 
@@ -139,4 +139,14 @@ Some aggregation pipeline stages accept an aggregation expression, which:
 * Can contain additional nested aggregation expressions.
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/#std-label-aggregation-expressions
+
+
+**IMPORTANT:**
+Aggregation expressions use field path to access fields in the input documents. To specify a field path, prefix the field name or the dotted field name (if the field is in the embedded document) with a dollar sign $. For example, "$user" to specify the field path for the user field or "$user.name" to specify the field path to "user.name" field.
+
+"$<field>" is equivalent to "$$CURRENT.<field>" where the CURRENT is a system variable that defaults to the root of the current object, unless stated otherwise in specific stages.
+
+### 1.3. Update Documents Using an Aggregation Pipeline
+
+![update with aggregation pipeline](image/image-6.png)
 
