@@ -109,3 +109,15 @@ An aggregation pipeline consists of one or more stages that process documents:
 **IMPORTANT NOTE:**
 Starting in MongoDB 4.2, you can update documents with an aggregation pipeline if you use the stages shown in Updates with Aggregation Pipeline.
 
+```
+db.orders.aggregate( [
+   // Stage 1: get documents where by pizza size is medium
+   {
+      $match: { size: "medium" }
+   },
+   // Stage 2: Group remaining documents by pizza name and calculate total quantity
+   {
+      $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+   }
+] )
+```

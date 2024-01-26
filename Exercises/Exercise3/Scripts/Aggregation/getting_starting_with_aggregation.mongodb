@@ -1,0 +1,28 @@
+use('restaurant');
+
+function totalQtyMediumPizza() {
+    const totalQty = db.orders.aggregate([
+        // 1. filter by pizza size: return only medium size pizza
+        // $match is called a pipeline stage (name)
+        {
+            $match: {
+                size: "medium"
+            }
+        },
+
+        // 2. group by name and for each group compute the total quantity
+        {
+            $group: {
+                // _id is the id of each group. Here the id is the name of the pizza (group)
+                _id: "$name",
+                // sum quantity. Obligation: totalQuantity must be an accumulator object such as sum
+                totalQuantity: {
+                    $sum: "$quantity"
+                }
+            }
+        }
+    ]);
+    return totalQty;
+}
+
+printjson(totalQtyMediumPizza().pretty());
