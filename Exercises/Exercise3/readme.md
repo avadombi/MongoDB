@@ -261,3 +261,35 @@ Schema validation is most useful for an established application where you have a
 
 * For a students collection, ensure that the gpa field is always a positive number. This validation catches typos during data entry.
 
+### 5.2.2. When MongoDB Checks Validation
+
+When you create a new collection with schema validation, MongoDB checks validation during updates and inserts in that collection.
+
+When you add validation to an existing, non-empty collection:
+
+* Newly inserted documents are checked for validation.
+
+* Documents already existing in your collection are not checked for validation until they are modified. Specific behavior for existing documents depends on your chosen validation level.
+
+### 5.2.3. What Happens When a Document Fails Validation
+By default, when an insert or update operation would result in an invalid document, MongoDB rejects the operation and does not write the document to the collection.
+
+Alternatively, you can configure MongoDB to allow invalid documents and log warnings when schema violations occur.
+
+
+### 5.2.3 How to add a Schema validation
+
+* JSON schema validation
+
+> How to define a Json schema validation
+https://www.mongodb.com/docs/manual/core/schema-validation/specify-json-schema/
+
+> How to set allowed fields values using enum 
+https://www.mongodb.com/docs/manual/core/schema-validation/specify-json-schema/specify-allowed-field-values/
+
+> How to handle null values
+https://www.mongodb.com/docs/manual/core/schema-validation/specify-json-schema/json-schema-tips/
+
+> Using query operators in defining the schema validation
+https://www.mongodb.com/docs/manual/core/schema-validation/specify-query-expression-rules/
+

@@ -1,0 +1,9 @@
+use('medicaldb');
+
+try {
+    db.dropUser("naruto", {w: "majority", wtimeout: 5000});
+    db.dropUser("dbz", {w: "majority", wtimeout: 5000});
+} catch (e) {
+    print(e)
+};
+

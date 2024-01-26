@@ -118,19 +118,18 @@ function viewWithRoles(username, password) {
     db.auth(username, password);
 
     // Execute the view given your allowed actions (here: find only)
-    printjson(db.medicalView.find());
+    printjson(db.medicalView.find({}));
 };
 
 // Execute the whole
 function executeOnce() {
-    createCollection();
     createRoles();
     createUsers();
-};
-
-function executeAll(username='naruto', password='nt001') {
+    createCollection();
     createView();
-    viewWithRoles(username, password);
 };
 
-executeAll(username='dbz', password='dbz008');
+// seems not to return anything (check it for latter)
+createView();
+viewWithRoles(username='naruto', password='nt001');
+
