@@ -126,7 +126,7 @@ db.orders.aggregate( [
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#std-label-aggregation-pipeline-operator-reference
 
-### 1.2. Aggregation expressions
+### 1.2. Aggregation expressions (or operators)
 
 Some aggregation pipeline stages accept an aggregation expression, which:
 
@@ -218,4 +218,8 @@ The following new concise syntax removes the requirement for an equality match o
       }
 }
 ```
+
+# 3. Views
+
+https://www.mongodb.com/docs/manual/core/views/create-view/
 
