@@ -148,5 +148,5 @@ Aggregation expressions use field path to access fields in the input documents. 
 
 ### 1.3. Update Documents Using an Aggregation Pipeline
 
-![update with aggregation pipeline](image/image-6.png)
+![update with aggregation pipeline](./image/image-6.png)
 
