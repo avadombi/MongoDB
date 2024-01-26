@@ -1,0 +1,136 @@
+// 1. create a db named medicaldb
+use('medicaldb');
+
+
+// 2. create a collection named medical and insert data
+function createCollection() {
+    db.medical.insertMany( [
+        {
+           _id: 0,
+           patientName: "Jack Jones",
+           diagnosisCode: "CAS 17",
+           creditCard: "1234-5678-9012-3456"
+        },
+        {
+           _id: 1,
+           patientName: "Mary Smith",
+           diagnosisCode: "ACH 01",
+           creditCard: "6541-7534-9637-3456"
+        }
+    ])
+};
+
+// 3. create roles
+function createRoles() {
+    // What kind of info can be accessed will be defined in the view following user role
+    // first role
+    db.createRole(
+        {
+            role: "Billing",  // role name
+            privileges: [
+                {
+                    resource: {
+                        db: "medicaldb",  // our database
+                        collection: "medicalView"  // the collection or view on which the role is applied
+                    },
+                    actions: [ "find" ]  // allowed action
+                }
+            ],
+            roles: [ ]
+        } 
+    );
+
+    // second role (same as previous in this example)
+    db.createRole(
+        {
+            role: "Provider",
+            privileges: [
+                {
+                    resource: {
+                        db: "medicaldb",
+                        collection: "medicalView"
+                    },
+                    actions: ["find"]
+                }
+            ],
+            roles: []
+        }
+    );
+};
+
+// 4. create users
+function createUsers() {
+    db.createUser({
+        user: "naruto",
+        pwd: "nt001",
+        roles: [
+            {role: "Billing", db: "medicaldb"}
+        ]
+    });
+
+    db.createUser({
+        user: "dbz",
+        pwd: "dbz008",
+        roles: [
+            {role: "Provider", db: "medicaldb"}
+        ]
+    });
+};
+
+// 5. create a view named medicalView
+function createView() {
+    db.createView(
+        "medicalView",
+        "medicaldb",
+        [
+            // stage 1: fields that only Provider role can access (i.e., _id, patientName, diagnosisCode)
+            // why not creditCard? because of restriction in stage 2.
+            {
+                $set: {
+                    "diagnosisCode": {
+                        $cond: {
+                            if: { $in: ["Provider", "$$USER_ROLES.role"] }, // if "Provider" is in user role then
+                            then: "$diagnosisCode",
+                            else: "$$REMOVE"  // so if role="Billing", diagnosisCode will not be displayed
+                        }
+                    }
+                }
+            },
+            // stage 2: fields that only Billing role can access
+            {
+                $set: {
+                    "creditCard": {
+                        $cond: {
+                            if: { $in: ["Billing", "$$USER_ROLES.role"] },
+                            then: "$creditCard",
+                            else: "$$REMOVE"
+                        }
+                    }
+                }
+            }
+        ]
+    );
+};
+
+// 6. view data of the created view based on user role
+function viewWithRoles(username, password) {
+    // Log in as `username`
+    db.auth(username, password);
+
+    // Execute the view given your allowed actions (here: find only)
+    printjson(db.medicalView.find());
+};
+
+// Execute the whole
+function executeOnce() {
+    createCollection();
+    createRoles();
+    createUsers();
+};
+
+function executeAll(username='naruto', password='nt001') {
+    createView();
+    viewWithRoles(username, password);
+};
+
+executeAll(username='dbz', password='dbz008');

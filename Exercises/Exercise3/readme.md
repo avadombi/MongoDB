@@ -225,5 +225,39 @@ https://www.mongodb.com/docs/manual/reference/operator/query/expr/
 
 # 3. Views
 
+* Create a view + user role to restrainct fields that can be seen following the role
 https://www.mongodb.com/docs/manual/core/views/create-view/
+
+update privileges in admin:
+https://www.mongodb.com/docs/manual/tutorial/change-own-password-and-custom-data/
+
+* Remove or modify a view
+https://www.mongodb.com/docs/manual/core/views/update-view/
+
+# 4. Create clustered index (e.g., primary key)
+https://www.mongodb.com/docs/manual/core/clustered-collections/
+
+# 5. Data consistency and schema validation
+
+## 5.1. Data consistency
+https://www.mongodb.com/docs/manual/data-modeling/data-consistency/
+
+## 5.2. Schema validation
+Schema validation lets you create validation rules for your fields, such as allowed data types and value ranges.
+
+MongoDB uses a flexible schema model, which means that documents in a collection do not need to have the same fields or data types by default. Once you've established an application schema, you can use schema validation to ensure there are no unintended schema changes or improper data types.
+
+https://www.mongodb.com/docs/manual/core/schema-validation/
+
+### 5.2.1. When to Use Schema Validation
+
+Your schema validation needs depend on how users use your application. When your application is in the early stages of development, schema validation may impose unhelpful restrictions because you don't know how you want to organize your data. Specifically, the fields in your collections may change over time.
+
+Schema validation is most useful for an established application where you have a good sense of how to organize your data. You can use schema validation in the following scenarios:
+
+* For a users collection, ensure that the password field is only stored as a string. This validation prevents users from saving their password as an unexpected data type, like an image.
+
+* For a sales collection, ensure that the item field belongs to a list of items that your store sells. This validation prevents a user from accidentally misspelling an item name when entering sales data.
+
+* For a students collection, ensure that the gpa field is always a positive number. This validation catches typos during data entry.
 
