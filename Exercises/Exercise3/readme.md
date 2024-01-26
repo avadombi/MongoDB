@@ -148,5 +148,74 @@ Aggregation expressions use field path to access fields in the input documents. 
 
 ### 1.3. Update Documents Using an Aggregation Pipeline
 
-![update with aggregation pipeline](./image/image-6.png)
+![update with aggregation pipeline](./images/image-6.png)
+
+### 1.4. Aggregation pipeline limits
+
+https://www.mongodb.com/docs/manual/core/aggregation-pipeline-limits/
+
+
+### 1.5 Practical MongoDB Aggregations (Book)
+
+https://www.practical-mongodb-aggregations.com/who-this-is-for.html
+
+### 1.6 How to optimize your aggregation pipeline
+
+https://www.mongodb.com/docs/manual/core/aggregation-pipeline-optimization/
+
+## 2. Jointure
+
+### 2.1. $lookup stage (left (outer) join)
+
+
+#### 2.1.1. Simple left join
+```
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+```
+
+![lookup](./images/image-7.png)
+
+
+#### 2.1.2. More complex one
+
+To perform correlated and uncorrelated subqueries with two collections, and perform other join conditions besides a single equality match, use this $lookup syntax:
+
+```
+{
+   $lookup:
+      {
+         from: <joined collection>,
+         let: { <var_1>: <expression>, …, <var_n>: <expression> },
+         pipeline: [ <pipeline to run on joined collection> ],
+         as: <output array field>
+      }
+}
+```
+![lookup](./images/image-8a.png)
+![lookup](./images/image-8b.png)
+![lookup](./images/image-8c.png)
+
+The following new concise syntax removes the requirement for an equality match on the foreign and local fields inside of an $expr operator:
+
+```
+{
+   $lookup:
+      {
+         from: <foreign collection>,
+         localField: <field from local collection's documents>,
+         foreignField: <field from foreign collection's documents>,
+         let: { <var_1>: <expression>, …, <var_n>: <expression> },
+         pipeline: [ <pipeline to run> ],
+         as: <output array field>
+      }
+}
+```
 

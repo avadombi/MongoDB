@@ -1,0 +1,76 @@
+// create a new db
+use('resto');
+
+// create 2 collections and insert data in them
+function populateDb() {
+    db.orders.insertMany( [
+        { "_id" : 1, "item" : "almonds", "price" : 12, "quantity" : 2 },
+        { "_id" : 2, "item" : "pecans", "price" : 20, "quantity" : 1 },
+        { "_id" : 3  }
+    ]);
+
+    db.inventory.insertMany( [
+        { "_id" : 1, "sku" : "almonds", "description": "product 1", "instock" : 120 },
+        { "_id" : 2, "sku" : "bread", "description": "product 2", "instock" : 80 },
+        { "_id" : 3, "sku" : "cashews", "description": "product 3", "instock" : 60 },
+        { "_id" : 4, "sku" : "pecans", "description": "product 4", "instock" : 70 },
+        { "_id" : 5, "sku": null, "description": "Incomplete" },
+        { "_id" : 6 }
+    ]);
+};
+
+/**
+ * create aggregation operation on the orders collection that joins the documents 
+ * from orders with the documents from the inventory collection using the fields item 
+ * from the orders collection and the sku field from the inventory collection
+*/
+
+function leftJoinOrdersWithInventory() {
+    const outs = db.orders.aggregate([
+        // stage 1: left join
+        {
+            $lookup: {
+              from: "inventory",
+              localField: "item",
+              foreignField: "sku",
+              as: "joined_documents"  // list of all docs in inventory that match
+            }
+        },
+        // stage 2: add a field that extract the first doc in joined_documents
+        {
+            $addFields: {
+                joined_doc: {
+                    $arrayElemAt: ["$joined_documents", 0]
+                }
+            }
+        },
+        // stage 3: add new field to the previous stage's result
+        {
+            $addFields: {
+                thisIsAnEmbeddedField: {
+                totalCapitalInstock: {
+                    $multiply: ["$joined_doc.instock", "$price"]
+                },
+                totalPrice: {$multiply: ["$quantity", "$price"]}
+                },
+                whatOps: "add fields"
+            }
+        },
+        // stage 4: project to return all fields except joined_doc
+        {
+            $project: {
+                joined_doc: false
+            }
+        },
+        // final stage: store the result in a collection named aggLookup1
+        {
+            $out: {
+                db: "resto",
+                coll: "aggLookup1"  // if you specify an existing coll, it will replace it by the agg. results
+            }
+        }
+    ]);
+};
+
+
+leftJoinOrdersWithInventory();
