@@ -1,5 +1,7 @@
 use('restaurant');
 
+// 1. Aggregation pipeline
+
 function totalQtyMediumPizza() {
     const totalQty = db.orders.aggregate([
         // 1. filter by pizza size: return only medium size pizza
@@ -25,4 +27,21 @@ function totalQtyMediumPizza() {
     return totalQty;
 }
 
-printjson(totalQtyMediumPizza().pretty());
+// 2. Single purpose aggregation methods
+function singlePurposeAgg(choice) {
+    if (choice === 'count') {
+        // count number of documents in a collection or a view
+        return db.orders.countDocuments();
+    } else if (choice === 'distinct') {
+        // returns an array of docs that have distinct values in the
+        // specified field
+        return db.orders.distinct("name");
+    } else {
+        // return an approximate count of the documents in a collection or a view
+        return db.orders.estimatedDocumentCount();
+    }
+}
+
+printjson(singlePurposeAgg(choice = 'count'));
+printjson(singlePurposeAgg(choice = 'distinct'));
+printjson(singlePurposeAgg(choice = ''));
