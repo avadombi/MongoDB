@@ -219,6 +219,10 @@ The following new concise syntax removes the requirement for an equality match o
 }
 ```
 
+#### 2.1.3 Use of $expr to compare fields in the SAME documents
+
+https://www.mongodb.com/docs/manual/reference/operator/query/expr/
+
 # 3. Views
 
 https://www.mongodb.com/docs/manual/core/views/create-view/

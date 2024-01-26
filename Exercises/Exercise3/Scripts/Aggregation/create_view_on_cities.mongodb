@@ -1,0 +1,52 @@
+use('country_db');
+
+// create a view on ciities collection named populationUnder10K
+// that return only cities with population < 10K
+// sort them by name in asc and return only 5 occurences
+// should return also only city_name and population fields
+
+function createViewOnCities() {
+    db.createView(
+        // view name
+        "populationUnder10K",
+        // collection on which to create the view
+        "cities",
+        // now the pipeline
+        [
+            // stage 1: get population under 10K
+            {
+                $match: {
+                    // match is not an agg. expression, so we can directly use
+                    // field as population instead of "$population" since population
+                    // is just below $match
+                    population: { $lte: 100_000}
+                }
+            },
+            // stage 2: limit to 5
+            {
+                $limit: 5
+            },
+            // stage 3: sort by name in asc order
+            {
+                $sort: {
+                  city_name: 1
+                }
+            },
+            // stage 4: return only city_name and population fields
+            {
+                $project: {
+                  city_name: true,
+                  population: true
+                }
+            }
+        ]
+    );
+};
+
+// createViewOnCities();
+
+
+// access query the view
+const outs = db.populationUnder10K.find({}, {_id: false});
+printjson(outs.pretty());
+
