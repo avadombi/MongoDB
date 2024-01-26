@@ -1,0 +1,48 @@
+use('restaurant');
+
+/**
+ * Calculate:
+ *  (1) total order value: sum(quantity * price)
+ *  (2) average order quantity: avg(quantity)
+ * By type of pizza
+ */
+
+function totalValueAvgQuantity() {
+    const outs = db.orders.aggregate([
+        {
+            // get orders between 2 dates
+            $match: {
+                "date": {
+                    $gte: new ISODate("2020-01-30"),
+                    $lte: new ISODate("2022-01-30")
+                }
+            }
+        },
+        {
+            // group by date and calculate totalOrderValue and avgOrderQuantity
+            $group: {
+                _id: {
+                    $dateToString: {date: "$date", format: "%Y-%m-%d"}  // to avoid effect of hours that don't match
+                },
+                totalOrderValue: {
+                    $sum: {
+                        $multiply: ["$quantity", "$price"]
+                    }
+                },
+                avgOrderQuantity: {
+                    $avg: "$quantity"
+                }
+            }
+        },
+        {
+            // sort by totalOrderValue in desc order
+            $sort: {
+                totalOrderValue: -1
+            }
+        }
+    ]);
+
+    return outs;
+};
+
+printjson(totalValueAvgQuantity());
