@@ -296,3 +296,16 @@ https://www.mongodb.com/docs/manual/core/schema-validation/specify-query-express
 > $jsonSchema specifications
 https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema/#json-schema
 
+
+# 6. Model Relationships between documents
+
+## 6.1. One-to-One
+https://www.mongodb.com/docs/manual/tutorial/model-embedded-one-to-one-relationships-between-documents/
+
+## 6.2. One-to-Many
+https://www.mongodb.com/docs/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/
+https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/
+
+# 7. Model tree structures with parent references
+https://www.mongodb.com/docs/manual/tutorial/model-tree-structures-with-parent-references/
+

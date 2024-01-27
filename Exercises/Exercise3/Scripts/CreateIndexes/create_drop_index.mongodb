@@ -1,0 +1,20 @@
+use('country_db');
+
+// 1. get city=Toronto and explain the results without index
+// under executionStats > executionStages > docsExamined: 23870
+printjson(
+    db.cities.find({city_name: "Toronto"}).explain('executionStats')
+);
+
+// 2. create an index on city_name
+db.cities.createIndex({city_name: 1}, {name: "cityNameIndex"});  // index on city_name, order: asc
+printjson(db.cities.getIndexes()); // display indexes
+
+// under executionStats > executionStages > docsExamined: 1
+printjson(
+    db.cities.find({city_name: "Toronto"}).explain('executionStats')
+);
+
+// 3. drop the index
+db.cities.dropIndex("cityNameIndex");
+printjson(db.cities.getIndexes());
