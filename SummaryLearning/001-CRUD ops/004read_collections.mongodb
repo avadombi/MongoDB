@@ -26,4 +26,22 @@ function readStudents(limit=null) {
 };
 
 
-readStudents(limit=null);
+// read students with conditions
+function readStudentsBy(filters={}, project={}, limit=0) {
+    const documents = db.students.find(filters, project).limit(limit);
+    print(`No. documents: ${documents.count()}`)
+    while (documents.hasNext()) {
+        printjson(documents.next());
+    }
+};
+
+/**
+ * readStudentsBy(
+    filters={gpa: {$gte: 4.0}},
+    project={_id: false, lastName: 1, gpa: 1},
+    limit=3
+);
+*/
+
+
+
