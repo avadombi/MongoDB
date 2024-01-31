@@ -224,3 +224,9 @@ function insertTeachers() {
     );
 };
 
+// execute two times to insert duplicates
+function executer() {
+    insertStudents();
+    insertTeachers();
+};
+
