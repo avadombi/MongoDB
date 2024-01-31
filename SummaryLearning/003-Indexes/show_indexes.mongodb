@@ -1,0 +1,19 @@
+// select the db
+use('realschool');
+
+// create an assertion function first to ensure that whatType (see below)
+// is either "students" or "teachers"
+function assert(whatType, message=null) {
+    if (!(whatType === 'students' || whatType === 'teachers')) {
+      throw new Error(message || "`whatType should be either 'students' or teachers`");
+    }
+};
+
+// create a function that show the indexes of a collection
+function showIndexes(whatType) {
+    assert(whatType);
+    print(db.getCollection(whatType).getIndexes());
+}
+
+showIndexes(whatType='students');
+showIndexes(whatType='teachers');

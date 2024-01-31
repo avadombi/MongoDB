@@ -1,0 +1,15 @@
+// select the db
+use('realschool');
+
+// create a function that remove the specified index from the specified collection
+function dropIndexes(whatType, indexName) {
+    if (whatType === 'students') {
+        db.students.dropIndex(indexName);
+    }
+
+    if (whatType === 'teachers') {
+        db.teachers.dropIndex(indexName);
+    }
+};
+
+dropIndexes(whatType='students', indexName='indexStudentGPA');
