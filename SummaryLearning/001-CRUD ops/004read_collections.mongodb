@@ -43,5 +43,47 @@ function readStudentsBy(filters={}, project={}, limit=0) {
 );
 */
 
+// read teachers with conditions
+function readTeachersBy(filters={}, project={}, limit=0) {
+    const documents = db.teachers.find(filters, project).limit(limit);
+    print(`No. documents: ${documents.count()}`)
+    while (documents.hasNext()) {
+        printjson(documents.next());
+    }
+};
+
+
+// function to read students or teachers by conditions
+function readStudTeachBy(whatType='students', filters={}, project={}, limit=0, sort={}) {
+    let collection;
+    switch (whatType) {
+        case 'students':
+            collection = db.students;
+            break;
+        case 'teachers':
+            collection = db.teachers;
+            break;
+        default:
+            print(`whatType entered: ${whatType}. It should be either 'students" or 'teachers'`);
+    }
+
+    // get the desired documents
+    const documents = collection.find(filters, project).limit(limit).sort(sort);
+
+    // print the documents
+    while (documents.hasNext()) {
+        print(documents.next());
+    }
+};
+
+
+readStudTeachBy(
+    whatType='teachers',
+    filters={},
+    project={_id: 0, teacherName: 1, notation: 1},
+    limit=0,
+    sort={ notation: -1 }
+);
+
 
 
