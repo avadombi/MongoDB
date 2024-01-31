@@ -1,0 +1,29 @@
+// select the db
+use('realschool');
+
+// function to read students
+function readStudents(limit=null) {
+    let documents;
+    if (limit !== null) {
+        // limit to #limit
+        // read all
+        documents = db.students.find(
+            {}, {_id: false}  // do not return _id field
+        ).limit(limit);
+    } else {
+        // read all
+        documents = db.students.find(
+            {}, {_id: false}
+        );
+    }
+    
+    // print
+    print(`The number of documents in students collection is: ${documents.count()}`);
+    print('Below are the documents');
+    while (documents.hasNext()) {
+        print(documents.next());
+    }
+};
+
+
+readStudents(limit=null);
