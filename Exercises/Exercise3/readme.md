@@ -309,3 +309,9 @@ https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relati
 # 7. Model tree structures with parent references
 https://www.mongodb.com/docs/manual/tutorial/model-tree-structures-with-parent-references/
 
+# 8. Time Series
+
+A time series = {time, metadata, measurement}
+
+## 8.1. How to create and query a time series
+

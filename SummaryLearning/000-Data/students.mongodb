@@ -1,0 +1,126 @@
+// Data to use in this summary learning
+const data = [
+    {
+        firstName: "Martin",
+        lastName: "Cortez",
+        age: 18,
+        admittedOn: new Date("2021-09-01"),
+        undergraduate: true,
+        gpa: 3.1
+    },
+    {
+        firstName: "Alice",
+        lastName: "Koltin",
+        age: 21,
+        admittedOn: new Date("2021-05-03"),
+        undergraduate: true,
+        gpa: 3.3
+    },
+    {
+        firstName: "Joseph",
+        lastName: "McCarty",
+        age: 25,
+        admittedOn: new Date("2022-09-01"),
+        undergraduate: true,
+        gpa: 2.4
+    },
+    {
+        firstName: "Umar",
+        lastName: "Bill",
+        age: 24,
+        admittedOn: new Date("2020-12-01"),
+        undergraduate: false,
+        gpa: 3.8
+    },
+    {
+        firstName: "Salif",
+        lastName: "Konrad",
+        age: 23,
+        admittedOn: new Date("2019-09-01"),
+        undergraduate: false,
+        gpa: 3.9
+    },
+    {
+        firstName: "Kumar",
+        lastName: "Admil",
+        age: 17,
+        admittedOn: new Date("2023-09-01"),
+        undergraduate: true,
+        gpa: 3.5
+    },
+    {
+        firstName: "Sonia",
+        lastName: "BelleDame",
+        age: 23,
+        admittedOn: new Date("2022-09-01"),
+        undergraduate: false,
+        gpa: 4.1
+    },
+    {
+        firstName: "Amanda",
+        lastName: "Konate",
+        age: 26,
+        admittedOn: new Date("2022-06-07"),
+        undergraduate: false,
+        gpa: 4.2
+    },
+    {
+        firstName: "Amanda",
+        lastName: "Konate",
+        age: 26,
+        admittedOn: new Date("2022-06-07"),
+        undergraduate: false,
+        gpa: 4.2
+    },
+    {
+        firstName: "Manon",
+        lastName: "Dolby",
+        age: 25,
+        admittedOn: new Date("2022-06-07"),
+        undergraduate: false,
+        gpa: 2.8
+    },
+    {
+        firstName: "Edmon",
+        lastName: "Matt",
+        age: 21,
+        admittedOn: new Date("2021-06-07"),
+        undergraduate: true,
+        gpa: 4.0
+    },
+    {
+        firstName: "Blaise",
+        lastName: "Botin",
+        age: 24,
+        admittedOn: new Date("2021-06-07"),
+        undergraduate: true,
+        gpa: 3.0
+    },
+    {
+        firstName: "Amaru",
+        lastName: "Singh",
+        age: 21,
+        admittedOn: new Date("2021-06-07"),
+        undergraduate: true,
+        gpa: 4.2
+    },
+    {
+        firstName: "Mario",
+        lastName: "Corleone",
+        age: 23,
+        admittedOn: new Date("2019-06-07"),
+        undergraduate: false,
+        gpa: 2.4
+    },
+    {
+        firstName: "Kayt",
+        lastName: "Intello",
+        age: 24,
+        admittedOn: new Date("2022-04-01"),
+        undergraduate: false,
+        gpa: 3.8
+    }
+];
+
+print(data.length);
+printjson(data[0]);
