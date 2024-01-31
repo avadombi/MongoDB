@@ -37,3 +37,4 @@ function updateTeachers(criteria=3.8) {
 };
 
 updateTeachers(criteria=3.8);
+
