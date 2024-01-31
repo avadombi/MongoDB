@@ -1,0 +1,45 @@
+// select the db
+use('realschool');
+
+// create an assertion function first to ensure that whatType (see below)
+// is either "students" or "teachers"
+function assert(whatType, message=null) {
+    if (!(whatType === 'students' || whatType === 'teachers')) {
+      throw new Error(message || "`whatType should be either 'students' or teachers`");
+    }
+};
+
+// create a function that create an index to each collection
+function createIndexOn(whatType, indexDoc, indexName) {
+    assert(whatType);
+
+    if (whatType === 'students') {
+        db.students.createIndex(indexDoc, indexName);
+    } else {
+        db.teachers.createIndex(indexDoc, indexName);
+    }
+};
+
+function executeIndexCreationOnlyOneTime() {
+    createIndexOn(
+        whatType='students',
+        indexDoc={ firstName: 1, lastName: 1 },  // 1 asc and -1 desc
+        indexName={ name: 'indexStudentName' }
+    );
+
+    createIndexOn(
+        whatType='students',
+        indexDoc={gpa: 1},
+        indexName={ name: 'indexStudentGPA' }
+    );
+
+    createIndexOn(
+        whatType='teachers',
+        indexDoc={ teacherName: 1, notation: 1 },  // 1 asc and -1 desc
+        indexName={ name: 'indexTeacherNameNotation' }
+    );
+}
+
+// executeIndexCreationOnlyOneTime();
+
+
