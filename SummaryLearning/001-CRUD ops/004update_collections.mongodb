@@ -56,5 +56,14 @@ function updateTeacherSubjects() {
     );
 };
 
+// create a function to add new subjects to "Sue" and "Monalisa"
+function addSubjectTeacher() {
+    db.teachers.updateMany(
+        { teacherName: {$in: ["Sue", "Monalisa"]} },
+        { $push: { subjects: "Mechanics" } }
+    );
+};
+
 // updateTeachers(criteria=3.8);
-updateTeacherSubjects();
+// updateTeacherSubjects();
+// addSubjectTeacher();
