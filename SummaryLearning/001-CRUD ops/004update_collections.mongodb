@@ -36,5 +36,25 @@ function updateTeachers(criteria=3.8) {
     }
 };
 
-updateTeachers(criteria=3.8);
+// create a function that delete the last teacher's subjects if
+// the notation is < 3.8 and # of subjects is > 2
+function updateTeacherSubjects() {
+    db.teachers.updateMany(
+        // filters
+        {
+            $expr: {
+                $and: [
+                    { $lt: [ "$notation", 3.8 ] },
+                    { $gt: [ { $size: "$subjects" }, 1 ] }
+                ]
+            }
+        },
+        // ops
+        {
+            $pop: {subjects: 1}  // 1 for the last and -1 the first
+        }
+    );
+};
 
+// updateTeachers(criteria=3.8);
+updateTeacherSubjects();
