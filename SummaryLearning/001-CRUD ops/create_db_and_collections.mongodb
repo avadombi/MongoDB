@@ -1,0 +1,9 @@
+// create a database named: realschool
+use('realschool');
+
+// create a collection named students
+db.createCollection('students');
+
+// create a collection named teachers
+db.createCollection('teachers');
+
