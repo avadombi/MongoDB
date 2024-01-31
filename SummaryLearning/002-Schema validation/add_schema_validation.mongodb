@@ -1,0 +1,78 @@
+// select the db
+use('realschool');
+
+// 1. add a schema validation to students
+// require: [firstName, lastName, age]
+// firstName: string, maxLength: 30 - lastName: string, maxLength: 30
+// age: min 16, max 200 - if undergraduate is specified: boolean
+function svStudents() {
+    db.runCommand(
+        {
+            collMod: "students",
+            validator: {
+                $jsonSchema: {
+                    bsonType: "object",
+                    title: "Schema validation for students",
+                    required: ["firstName", "lastName", "age"],
+                    properties: {
+                        firstName: {
+                            bsonType: "string",
+                            maxLength: 30,
+                            description: "firstName should be a string with maxLength of 30"
+                        },
+                        lastName: {
+                            bsonType: "string",
+                            maxLength: 30,
+                            description: "lastName should be a string with maxLength of 30"
+                        },
+                        age: {
+                            bsonType: "int",
+                            minimum: 16,
+                            maximum: 200,
+                            description: "age should be an int btw 14 and 200"
+                        },
+                        undergraduate: {
+                            bsonType: "bool",
+                            description: "undergraduate should be a boolean: true or false"
+                        }
+                    }
+                }
+            },
+            validationLevel: "strict",
+            validationAction: "error"
+        }
+    );
+};
+
+
+// 2. add a schema validation to teachers
+// require: [teacherName]
+// teacherName: string, maxLength: 30
+function svTeachers() {
+    db.runCommand(
+        {
+            collMod: "teachers",
+            validator: {
+                $jsonSchema: {
+                    bsonType: "object",
+                    title: "Schema validation for teachers",
+                    required: ["teacherName"],
+                    properties: {
+                        teacherName: {
+                            bsonType: "string",
+                            maxLength: 30,
+                            description: "firstName should be a string with maxLength of 30"
+                        }
+                    }
+                }
+            },
+            validationLevel: "strict",
+            validationAction: "error"
+        }
+    );
+};
+
+svStudents();
+svTeachers();
+
+
