@@ -1,0 +1,39 @@
+// select the db
+use('realschool');
+
+// create a function that adds a new field (alert) to a teacher
+// if it's notation is under 3.8 and delete that field
+// if exists and greater or equal to 3.8. Count the # of time it stay under 3.8
+function updateTeachers(criteria=3.8) {
+    let documents = db.teachers.find({});
+    documents.forEach(function(document) {
+        if (document.notation >= criteria) {
+            // you can't use document.alert !== null because 
+            // it is always true, it will be created automatically not exist
+            if (typeof document.alert !== 'undefined') {
+                db.teachers.updateOne(
+                    {_id: document._id},
+                    { $unset: {alert: ""} }
+                );
+            }
+        } else {
+            db.teachers.updateOne(
+                {_id: document._id},
+                {
+                    $set: { alert: "attention !" },
+                    $inc: { count: 1 }  // if not exist, it will be created
+                }
+            );
+        }
+    });
+
+    // get all documents
+    documents = db.teachers.find({alert: {$exists: true}});
+
+    // print the documents
+    while (documents.hasNext()) {
+        print(documents.next());
+    }
+};
+
+updateTeachers(criteria=3.8);

@@ -1,0 +1,12 @@
+use('realschool');
+
+db.teachers.updateMany(
+    { alert: {$exists: true} },
+    { $unset: { count: "", alert: "" } }
+);
+
+db.teachers.updateMany(
+    { teacherName: "Sue" },
+    { $unset: { count: "", alert: "" } }
+);
+
