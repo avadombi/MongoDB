@@ -1,0 +1,50 @@
+// select the db
+use('realschool');
+
+// make a left join from students and teachers
+// aim? get info on favorite teacher for each student
+function leftJoinStudentsTeachers() {
+    db.students.aggregate(
+        [
+            // stage 1: lookup (left join)
+            {
+                $lookup: {
+                  from: "teachers",
+                  localField: "favoriteTeacher",
+                  foreignField: "teacherName",
+                  as: "favoriteTeacherInfo"
+                }
+            },
+            // stage 2: only return lastName, favoriteTeacher and favoriteTeacherInfo
+            {
+                $project: {
+                    _id: false,
+                    lastName: true,
+                    favoriteTeacher: true,
+                    favoriteTeacherInfo: true
+                }
+            },
+            // stage 3: rename favoriteTeacher and favoriteTeacherInfo
+            {
+                $project: {
+                    lastName: true,  // include this field
+                    teacher: "$favoriteTeacher",  // newName: "$oldName"
+                    teacherInfo: "$favoriteTeacherInfo",
+                }
+            },
+            // stage 4: do not include _id of teacher
+            {
+                $project: {
+                    "teacherInfo._id": false
+                }
+            },
+            // stage 5: store the result in a new collection named detailStudents
+            // in the current db
+            {
+                $out: "detailStudents"
+            }
+        ]
+    );
+};
+
+leftJoinStudentsTeachers();
