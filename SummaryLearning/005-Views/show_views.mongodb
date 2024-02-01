@@ -1,0 +1,10 @@
+// select the db
+use('realschool');
+
+// create a function that show the documents of the view
+function showDocumentViews() {
+    const documents = db.detailStudentsGPAgt4p1.find({});
+    print(documents);
+};
+
+showDocumentViews();

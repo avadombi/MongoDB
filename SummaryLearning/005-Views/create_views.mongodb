@@ -1,0 +1,57 @@
+// select the db
+use('realschool');
+
+// create a function that make a left join on students with gpa >= 4.1
+function createViewExecuteOnlyOneTime() {
+    db.createView(
+        // view name
+        "detailStudentsGPAgt4p1",
+        // specify the collection on which to make the view on
+        "students",
+        // now, define the pipeline
+        [
+            // stage 0: filter (get only students with GPA >= 4.1)
+            {
+                $match: {
+                  gpa: { $gte: 4.1 }
+                }
+            },
+            // stage 1: lookup (left join)
+            {
+                $lookup: {
+                  from: "teachers",
+                  localField: "favoriteTeacher",
+                  foreignField: "teacherName",
+                  as: "favoriteTeacherInfo"
+                }
+            },
+            // stage 2: only return lastName, favoriteTeacher and favoriteTeacherInfo
+            {
+                $project: {
+                    _id: false,
+                    lastName: true,
+                    gpa: true,
+                    favoriteTeacher: true,
+                    favoriteTeacherInfo: true
+                }
+            },
+            // stage 3: rename favoriteTeacher and favoriteTeacherInfo
+            {
+                $project: {
+                    lastName: true,  // include this field
+                    gpa: true,
+                    teacher: "$favoriteTeacher",  // newName: "$oldName"
+                    teacherInfo: "$favoriteTeacherInfo",
+                }
+            },
+            // stage 4: do not include _id of teacher
+            {
+                $project: {
+                    "teacherInfo._id": false
+                }
+            }
+        ]
+    );
+}
+
+// createViewExecuteOnlyOneTime();
